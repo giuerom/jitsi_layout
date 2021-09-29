@@ -1,10 +1,20 @@
 import "./App.css";
 import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import { mockJitsiIFrame } from "./JitsiMock";
 
 function App() {
   const [videoCallStyle, setVideoCallStyle] = useState({});
   const [gameStyle, setGameStyle] = useState({});
   const [mainContentStyle, setMainContentStyle] = useState({});
+
+  useEffect(() => {
+    const api = mockJitsiIFrame("jitsi-container");
+
+    api.addEventListener("participantJoined", function (event) {
+      alert(event);
+    });
+  });
 
   const onClick1 = () => {
     setVideoCallStyle((old) => {
@@ -26,7 +36,7 @@ function App() {
   return (
     <div>
       <div className="mainContent" style={mainContentStyle}>
-        <div className="videoCall" style={videoCallStyle}>
+        <div className="videoCall" style={videoCallStyle} id="jitsi-container">
           {JSON.stringify(videoCallStyle)}
         </div>
         <div className="game" style={gameStyle}>
